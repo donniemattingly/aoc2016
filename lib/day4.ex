@@ -21,7 +21,6 @@ defmodule Day4 do
     name
     |> String.split("")
     |> Enum.filter(fn x -> x != "" &&  x != "-" end)
-    |> IO.inspect
     |> Enum.group_by(&(&1))
     |> Map.to_list
     |> Enum.map(fn({char, occurs}) -> {length(occurs) * -1, char} end)
@@ -35,6 +34,24 @@ defmodule Day4 do
     get_checksum(name) == checksum
   end
 
+  def decode_name(name, id) do
+    name
+    |> String.split("-")
+    |> Enum.map(&rotate_word(&1, String.to_integer(id)))
+    |> Enum.join(" ")
+  end
+
+  def rotate_word(word, amount) do
+    word
+    |> String.to_charlist
+    |> Enum.map(&rotate_character(&1, amount))
+    |> to_string
+  end
+
+  def rotate_character(char, amount) do
+    rem(char - ?a + amount, 26) + ?a
+  end
+
   def parse_input(input) do
     input
     |> String.split
@@ -45,6 +62,15 @@ defmodule Day4 do
     real_input
     |> parse_input
     |> solve
+  end
+
+  def part2() do
+    real_input
+    |> parse_input
+    |> Enum.filter(&is_real_room/1)
+    |> Enum.map(fn({name, id, _}) ->
+      {id, decode_name(name, id)}
+    end)
   end
 
   def sample() do
