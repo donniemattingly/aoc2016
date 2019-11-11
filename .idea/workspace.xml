@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/day6.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/day4.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day4.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/aoc2016_test.exs" beforeDir="false" afterPath="$PROJECT_DIR$/test/aoc2016_test.exs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/assets/node_modules/phoenix/" />
@@ -64,11 +63,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/aoc2016_test.exs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
+            <state relative-caret-position="356">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/day6.ex">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="31" column="16" lean-forward="true" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -109,15 +117,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inputs/input-1-1.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="676" selection-start-column="676" selection-end-column="676" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -145,6 +144,7 @@
         <option value="$PROJECT_DIR$/inputs/input-4-1.txt" />
         <option value="$PROJECT_DIR$/lib/day4.ex" />
         <option value="$PROJECT_DIR$/test/aoc2016_test.exs" />
+        <option value="$PROJECT_DIR$/lib/day6.ex" />
       </list>
     </option>
   </component>
@@ -226,12 +226,12 @@
       <option name="presentableId" value="Default" />
       <updated>1573179904359</updated>
       <workItem from="1573179908401" duration="29000" />
-      <workItem from="1573179963792" duration="18691000" />
+      <workItem from="1573179963792" duration="20504000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18720000" />
+    <option name="totallyTimeSpent" value="20533000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="340" y="23" width="1340" height="1027" extended-state="0" />
@@ -341,8 +341,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/aoc2016_test.exs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
+        <state relative-caret-position="356">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/day6.ex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="16" lean-forward="true" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
         </state>
       </provider>
     </entry>
