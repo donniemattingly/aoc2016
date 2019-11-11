@@ -20,4 +20,13 @@ defmodule Aoc2016Test do
   test "day 2 part 2 works" do
     assert Day2.part2() == "8CB23"
   end
+
+  test "day 3 part 1 works" do
+    assert Day3.part1() == 1050
+  end
+
+  test "day 3 part 2 works" do
+    assert Day3.part2() == 1921
+  end
+
 end
