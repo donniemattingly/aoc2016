@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/inputs/input-7-1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/day7.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/day7.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day7.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/aoc2016_test.exs" beforeDir="false" afterPath="$PROJECT_DIR$/test/aoc2016_test.exs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
@@ -41,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/aoc2016_test.exs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+            <state relative-caret-position="455">
+              <caret line="53" column="30" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -50,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/day7.ex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="70" column="50" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
+            <state relative-caret-position="448">
+              <caret line="133" column="21" lean-forward="true" selection-start-line="133" selection-start-column="21" selection-end-line="133" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -235,12 +233,12 @@
       <option name="presentableId" value="Default" />
       <updated>1573179904359</updated>
       <workItem from="1573179908401" duration="29000" />
-      <workItem from="1573179963792" duration="28614000" />
+      <workItem from="1573179963792" duration="30033000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28643000" />
+    <option name="totallyTimeSpent" value="30062000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="340" y="23" width="1340" height="1027" extended-state="0" />
@@ -385,15 +383,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/day7.ex">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="70" column="50" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
+        <state relative-caret-position="448">
+          <caret line="133" column="21" lean-forward="true" selection-start-line="133" selection-start-column="21" selection-end-line="133" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/aoc2016_test.exs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
+        <state relative-caret-position="455">
+          <caret line="53" column="30" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -50,4 +50,8 @@ defmodule Aoc2016Test do
     assert Day7.part1() == 115
   end
 
+  test "day 7 part 2 works" do
+    assert Day7.part2() == 231
+  end
+
 end

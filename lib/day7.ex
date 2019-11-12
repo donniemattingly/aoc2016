@@ -12,22 +12,37 @@ defmodule Day7 do
     """
   end
 
+  def sample_input_2 do
+    """
+    aba[bab]xyz
+    xyx[xyx]xyx
+    aaa[kek]eke
+    zazbz[bzb]cdb
+    """
+  end
+
   def sample do
     sample_input()
     |> parse_input
-    |> solve
+    |> solve(&supports_tls?/1)
   end
 
   def part1 do
     real_input()
     |> parse_input
-    |> solve
+    |> solve(&supports_tls?/1)
+  end
+
+  def sample2 do
+    sample_input_2()
+    |> parse_input
+    |> solve(&supports_ssl?/1)
   end
 
   def part2 do
     real_input()
     |> parse_input
-    |> solve
+    |> solve(&supports_ssl?/1)
   end
 
   def parse_input(input) do
@@ -42,8 +57,43 @@ defmodule Day7 do
     |> Enum.any?(&is_seq_abba?/1)
   end
 
-  def is_seq_abba?([a, b, c, d]) do
-    a == d and b == c and a != b
+  def is_seq_abba?([a, b, b, a]) when a != b do
+    true
+  end
+
+  def is_seq_abba?(_) do
+    false
+  end
+
+  def get_canidate_abas(segments) do
+    chunk_strings(segments, 3, 1)
+    |> Enum.filter(&is_seq_aba?/1)
+  end
+
+  def chunk_strings(strings, size, step) do
+    strings |> Enum.flat_map(fn string ->
+      String.graphemes(string)
+      |> Enum.chunk_every(size, step)
+      |> Enum.filter(& length(&1) == 3)
+    end)
+  end
+
+  def has_matching_bab?(segments, abas) do
+    converted = Enum.map(abas, &convert_to_bab/1)
+    chunk_strings(segments, 3, 1)
+    |> Enum.any?(& &1 in converted)
+  end
+
+  def is_seq_aba?([a, b, a]) when a != b do
+    true
+  end
+
+  def is_seq_aba?(_) do
+    false
+  end
+
+  def convert_to_bab([a, b, a]) do
+    [b, a, b]
   end
 
   def do_confirms_confirm?(segments) do
@@ -72,11 +122,19 @@ defmodule Day7 do
     do_confirms_confirm?(segments) && !do_rejects_reject?(segments)
   end
 
-  def solve(parsed_input) do
+  def supports_ssl?(ip) do
+    segments = get_confirm_and_reject_segments(ip)
+    abas = segments.confirms |> get_canidate_abas
+    has_matching_bab?(segments.rejects, abas)
+  end
+
+  def solve(parsed_input, comparator) do
     parsed_input
-    |> Enum.map(&supports_tls?/1)
+    |> Enum.map(&(comparator.(&1)))
     |> Enum.filter(& &1)
     |> Enum.count
   end
+
+
 
 end
