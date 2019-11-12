@@ -27,13 +27,19 @@ defmodule Day6 do
   def sample do
     sample_input
     |> parse_input
-    |> solve
+    |> solve(&get_most_common_letter/1)
   end
 
   def part1 do
     real_input
     |> parse_input
-    |> solve
+    |> solve(&get_most_common_letter/1)
+  end
+
+  def part2 do
+    real_input
+    |> parse_input
+    |> solve(&get_least_common_letter/1)
   end
 
   def parse_input(input) do
@@ -56,12 +62,20 @@ defmodule Day6 do
     |> Enum.max_by(&elem(&1, 1))
   end
 
-  def solve(parsed_input) do
+  def get_least_common_letter(letters) do
+    letters
+    |> get_letter_to_count_map
+    |> Map.to_list
+    |> Enum.min_by(&elem(&1, 1))
+  end
+
+  def solve(parsed_input, comparator) do
     parsed_input
     |> Enum.zip
     |> Enum.map(&Tuple.to_list/1)
-    |> Enum.map(&get_most_common_letter/1)
+    |> Enum.map(&(comparator.(&1)))
     |> Enum.map(&elem(&1, 0))
     |> Enum.join("")
   end
+
 end

@@ -43,4 +43,8 @@ defmodule Aoc2016Test do
     assert Day6.part1() == "wkbvmikb"
   end
 
+  test "day 6 part 2 works" do
+    assert Day6.part2() == "evakwaga"
+  end
+
 end
