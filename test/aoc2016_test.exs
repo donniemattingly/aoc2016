@@ -31,10 +31,9 @@ defmodule Aoc2016Test do
 
   test "day 4 part 2 works" do
     [{id, _} | _ ] = Day4.part2()
-    |> Enum.filter(fn({id, name}) ->
+    |> Enum.filter(fn({_ , name}) ->
       name == "northpole object storage "
     end)
-    |> IO.inspect
 
     assert id == "324"
   end
@@ -45,6 +44,10 @@ defmodule Aoc2016Test do
 
   test "day 6 part 2 works" do
     assert Day6.part2() == "evakwaga"
+  end
+
+  test "day 7 part 1 works" do
+    assert Day7.part1() == 115
   end
 
 end
