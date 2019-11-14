@@ -48,11 +48,11 @@ defmodule Day0 do
   def solve2(input), do: solve(input)
 
   def parse_input(input) do
-
+    input
   end
 
   def solve(input) do
-
+    input
   end
 
 end
