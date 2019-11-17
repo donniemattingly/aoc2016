@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/benchee.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/dialyxir.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/eqc_ex.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/ex_doc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/excoveralls.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/libgraph.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inputs/input-10-1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/day10.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/elixir_make.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/elixir_make.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/matrex.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/matrex.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/day11.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aoc2016.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aoc2016.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mix.exs" beforeDir="false" afterPath="$PROJECT_DIR$/mix.exs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mix.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mix.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +79,7 @@
       <updated>1573179904359</updated>
       <workItem from="1573179908401" duration="29000" />
       <workItem from="1573179963792" duration="46645000" />
-      <workItem from="1573820504965" duration="12053000" />
+      <workItem from="1573820504965" duration="15352000" />
     </task>
     <servers />
   </component>
