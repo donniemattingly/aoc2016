@@ -56,9 +56,11 @@ defmodule Day11 do
     |> String.split("\n", trim: true)
     |> Enum.map(&parse_line/1)
     |> Enum.with_index
-    |> Enum.flat_map(fn {x, i} ->
-      Enum.map(x, &({i, elem(&1, 1), elem(&1, 0)}))
-    end)
+    |> Enum.flat_map(
+         fn {x, i} ->
+           Enum.map(x, &({i, elem(&1, 1), elem(&1, 0)}))
+         end
+       )
 
   end
 
@@ -71,7 +73,7 @@ defmodule Day11 do
     |> List.flatten
     |> Enum.map(&String.slice(&1, 0..2))
     |> Enum.map(&String.to_atom/1)
-    |> Enum.map(& {label, &1})
+    |> Enum.map(&{label, &1})
   end
 
   def get_microchips(line) do
@@ -96,24 +98,34 @@ defmodule Day11 do
   Remaining 2 bit chunks are in component sorted order
   """
   def get_states(input) do
-    components = input |> Enum.map(&just_component/1) |> Enum.sort
+    components = input
+                 |> Enum.map(&just_component/1)
+                 |> Enum.sort
     num_components = length(components)
-    states_count = num_states(num_components) |> IO.inspect
+    states_count = num_states(num_components)
 
-    0..states_count-1
+    0..states_count - 1
     |> Stream.map(&number_to_state(components, &1))
     |> Stream.filter(&valid_state?/1)
+    |> Stream.flat_map(fn state ->
+      neighbor_states(state)
+      |> Enum.map(fn x -> {state, x} end)
+    end)
   end
 
   @doc"""
   assuming we get components in the order they're supposed to be (sorted)
   """
   def number_to_state(components, num) do
-    <<num::32>>
+    <<num :: 32>>
     |> BitUtils.chunks(2)
     |> Enum.reverse
-    |> Enum.map(fn <<x::2>> -> x end)
+    |> Enum.map(fn <<x :: 2>> -> x end)
     |> Enum.zip([:elevator | components])
+  end
+
+  def state_to_number(state) do
+
   end
 
   @doc"""
@@ -122,20 +134,42 @@ defmodule Day11 do
   generator
   """
   def neighbor_states(state) do
-    {elevator_floor, _ } = Enum.find(state, fn x -> elem(x, 1) == :elevator end)
+    {elevator_floor, _} = Enum.find(state, fn x -> elem(x, 1) == :elevator end)
     can_move = state
                |> Enum.filter(fn {floor, c} -> floor == elevator_floor and c != :elevator end)
                |> Enum.map(&elem(&1, 1))
 
     elevator_combinations = 1..2
-    |> Enum.flat_map(&Comb.combinations(can_move, &1))
+                            |> Enum.flat_map(&Comb.combinations(can_move, &1))
 
-    possible_floors = [elevator_floor + 1, elevator_floor - 1 ] |> Enum.filter(& &1 >= 0)
+    possible_floors = [elevator_floor + 1, elevator_floor - 1]
+                      |> Enum.filter(& &1 >= 0)
 
     Comb.cartesian_product(possible_floors, elevator_combinations)
-    # at this point I have a list of the potential new states via a list of new floor and comp
-    # to move to that floor. Just need to map back to actual state, confirm it's valid, and return
-    # once I do that I can use orig / new to add an edge to the graph.
+    |> Enum.map(&List.to_tuple/1)
+    |> Enum.map(&advance_state(&1, state))
+    |> Enum.filter(&valid_state?/1)
+  end
+
+
+  @doc"""
+  the move is a 2 element list [a, b] with a being the new floor for the elevator and
+  b being the list of components to move
+  """
+  def advance_state({new_floor, components}, state) do
+    state
+    |> Enum.map(
+         fn {cur_floor, component} ->
+           cond do
+             component == :elevator ->
+               {new_floor, :elevator}
+             Enum.member?(components, component) ->
+               {new_floor, component}
+             true ->
+               {cur_floor, component}
+           end
+         end
+       )
   end
 
   def just_component({floor, type, element}) do
@@ -143,7 +177,8 @@ defmodule Day11 do
   end
 
   def num_states(num_components) do
-    :math.pow(2, 2 * (num_components + 1)) |> round
+    :math.pow(2, 2 * (num_components + 1))
+    |> round
   end
 
   def valid_state?(state) do
@@ -155,13 +190,17 @@ defmodule Day11 do
 
   def valid_floor?(floor) do
     cleaned_floor = floor
-    |> Enum.map(&elem(&1, 1))   # don't care what floor
-    |> Enum.filter(&is_tuple/1) # ignore the elevator
+                    |> Enum.map(&elem(&1, 1))   # don't care what floor
+                    |> Enum.filter(&is_tuple/1) # ignore the elevator
 
     # accumulating a boolean, if any chip would be fried it's always false
-    Enum.reduce(just_microchips(cleaned_floor), true, fn x, acc ->
-      acc and would_fry_microchip?(x, cleaned_floor)
-    end)
+    Enum.reduce(
+      just_microchips(cleaned_floor),
+      true,
+      fn x, acc ->
+        acc and would_fry_microchip?(x, cleaned_floor)
+      end
+    )
   end
 
   @doc"""
@@ -183,8 +222,16 @@ defmodule Day11 do
     Enum.filter(floor, fn {type, component} -> component == :m end)
   end
 
+  def lazy_count(stream) do
+    Stream.scan(stream, 0, fn x, acc -> acc + 1 end)
+  end
+
+  def state_transitions_to_graph(states) do
+    Graph.add_edges(Graph.new, states)
+  end
+
   def solve(input) do
-    input
+    get_states(input) |> state_transitions_to_graph
   end
 
 end
