@@ -116,6 +116,25 @@ defmodule Day11 do
     |> Enum.zip([:elevator | components])
   end
 
+  @doc"""
+  State changes all rely on the elevator. Up to two components on the floor the elevator is on
+  can move up or down one level. We'll filter these new states w/ the same filter as the vertex
+  generator
+  """
+  def neighbor_states(state) do
+    {elevator_floor, _ } = Enum.find(state, fn x -> elem(x, 1) == :elevator end)
+    can_move = state
+               |> Enum.filter(fn {floor, c} -> floor == elevator_floor and c != :elevator end)
+               |> Enum.map(&elem(&1, 1))
+
+    elevator_combinations = 1..2
+    |> Enum.flat_map(&Comb.combinations(can_move, &1))
+
+    possible_floors = [elevator_floor + 1, elevator_floor - 1 ] |> Enum.filter(& &1 >= 0)
+
+    Comb.cartesian_product(possible_floors, elevator_combinations)
+  end
+
   def just_component({floor, type, element}) do
     {type, element}
   end

@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/bit_utils.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aoc2016.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aoc2016.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/day11.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day11.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mix.exs" beforeDir="false" afterPath="$PROJECT_DIR$/mix.exs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mix.lock" beforeDir="false" afterPath="$PROJECT_DIR$/mix.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
