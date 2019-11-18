@@ -57,7 +57,7 @@ defmodule Day11 do
     |> Enum.map(&parse_line/1)
     |> Enum.with_index
     |> Enum.flat_map(fn {x, i} ->
-      Enum.map(x, &({i, elem(&1, 0), elem(&1, 1)}))
+      Enum.map(x, &({i, elem(&1, 1), elem(&1, 0)}))
     end)
 
   end
@@ -82,8 +82,83 @@ defmodule Day11 do
     get_component(line, ~r/([a-z]+) generator/, :g)
   end
 
-  def valid_state?(state) do
+  @doc"""
+  Returns a Stream of possible (but not necessarily valid) states
 
+  Assumes 4 floors, elevator can hold two items, etc
+
+  States are composed of:
+    - floor of each component
+    - position of elevator
+
+
+  First 2 bit chunk is the elevator position
+  Remaining 2 bit chunks are in component sorted order
+  """
+  def get_states(input) do
+    components = input |> Enum.map(&just_component/1) |> Enum.sort
+    num_components = length(components)
+    states_count = num_states(num_components) |> IO.inspect
+
+    0..states_count-1
+    |> Stream.map(&number_to_state(components, &1))
+    |> Stream.filter(&valid_state?/1)
+  end
+
+  @doc"""
+  assuming we get components in the order they're supposed to be (sorted)
+  """
+  def number_to_state(components, num) do
+    <<num::32>>
+    |> BitUtils.chunks(2)
+    |> Enum.reverse
+    |> Enum.map(fn <<x::2>> -> x end)
+    |> Enum.zip([:elevator | components])
+  end
+
+  def just_component({floor, type, element}) do
+    {type, element}
+  end
+
+  def num_states(num_components) do
+    :math.pow(2, 2 * (num_components + 1)) |> round
+  end
+
+  def valid_state?(state) do
+    state
+    |> Enum.group_by(&elem(&1, 0))
+    |> Map.values
+    |> Enum.all?(&valid_floor?/1)
+  end
+
+  def valid_floor?(floor) do
+    cleaned_floor = floor
+    |> Enum.map(&elem(&1, 1))   # don't care what floor
+    |> Enum.filter(&is_tuple/1) # ignore the elevator
+
+    # accumulating a boolean, if any chip would be fried it's always false
+    Enum.reduce(just_microchips(cleaned_floor), true, fn x, acc ->
+      acc and would_fry_microchip?(x, cleaned_floor)
+    end)
+  end
+
+  @doc"""
+  A microchip is fried if it's on a floor w/ another RTG w/ out it's own
+  """
+  def would_fry_microchip?(chip, floor) do
+    has_generators?(floor) and not has_own_rtg?(chip, floor)
+  end
+
+  def has_own_rtg?({type, :m}, floor) do
+    Enum.member?(floor, {type, :g})
+  end
+
+  def has_generators?(floor) do
+    Enum.any?(floor, &(elem(&1, 1) == :g))
+  end
+
+  def just_microchips(floor) do
+    Enum.filter(floor, fn {type, component} -> component == :m end)
   end
 
   def solve(input) do

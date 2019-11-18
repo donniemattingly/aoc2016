@@ -7,11 +7,11 @@
       <sourceFolder url="file://$MODULE_DIR$/lib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/comb" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/libgraph" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/matrex" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/elixir_make" />
-      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/libgraph" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/matrex" />
       <excludeFolder url="file://$MODULE_DIR$/assets/node_modules/phoenix" />
       <excludeFolder url="file://$MODULE_DIR$/assets/node_modules/phoenix_html" />
@@ -29,5 +29,6 @@
     <orderEntry type="library" name="excoveralls" level="project" />
     <orderEntry type="library" name="dialyxir" level="project" />
     <orderEntry type="library" name="ex_doc" level="project" />
+    <orderEntry type="library" name="comb" level="project" />
   </component>
 </module>
