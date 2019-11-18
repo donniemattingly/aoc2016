@@ -133,6 +133,9 @@ defmodule Day11 do
     possible_floors = [elevator_floor + 1, elevator_floor - 1 ] |> Enum.filter(& &1 >= 0)
 
     Comb.cartesian_product(possible_floors, elevator_combinations)
+    # at this point I have a list of the potential new states via a list of new floor and comp
+    # to move to that floor. Just need to map back to actual state, confirm it's valid, and return
+    # once I do that I can use orig / new to add an edge to the graph.
   end
 
   def just_component({floor, type, element}) do
