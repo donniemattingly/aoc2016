@@ -1,21 +1,6 @@
 defmodule Day11 do
   def real_input do
-    {
-      [
-        {:g, :po},
-        {:g, :th},
-        {:m, :th},
-        {:g, :pr},
-        {:g, :ru},
-        {:m, :ru},
-        {:g, :co},
-        {:m, :co}
-      ],
-      [
-        {:m, :po},
-        {:m, :pr}
-      ]
-    }
+    Utils.get_input(11, 1)
   end
 
   def sample_input do
