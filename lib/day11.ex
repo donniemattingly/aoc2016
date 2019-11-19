@@ -99,24 +99,33 @@ defmodule Day11 do
   """
   def get_states(input) do
     components = input
-                 |> Enum.map(&just_component/1)
-                 |> Enum.sort
+                 |> get_components_from_parsed_input
     num_components = length(components)
     states_count = num_states(num_components)
 
-    0..states_count - 1
-    |> Stream.map(&number_to_state(components, &1))
-    |> Stream.filter(&valid_state?/1)
-    |> Stream.flat_map(fn state ->
-      neighbor_states(state)
-      |> Enum.map(fn x -> {state, x} end)
-    end)
+    states = 0..states_count - 1
+             |> Stream.map(&number_to_state(&1, components))
+             |> Stream.filter(&valid_state?/1)
+             |> Stream.flat_map(
+                  fn state ->
+                    neighbor_states(state)
+                    |> Enum.map(fn x -> {state, x} end)
+                  end
+                )
+
+    {states, states_count - 1}
+  end
+
+  def get_components_from_parsed_input(input) do
+    input
+    |> Enum.map(&just_component/1)
+    |> Enum.sort
   end
 
   @doc"""
   assuming we get components in the order they're supposed to be (sorted)
   """
-  def number_to_state(components, num) do
+  def number_to_state(num, components) do
     <<num :: 32>>
     |> BitUtils.chunks(2)
     |> Enum.reverse
@@ -125,7 +134,14 @@ defmodule Day11 do
   end
 
   def state_to_number(state) do
-
+    {num, rest} = state
+                  |> Enum.reverse
+                  |> Enum.map(&elem(&1, 0))
+                  |> Enum.map(&Integer.to_string(&1, 2))
+                  |> Enum.map(&String.pad_leading(&1, 2, "0"))
+                  |> Enum.join("")
+                  |> Integer.parse(2)
+    num
   end
 
   @doc"""
@@ -143,7 +159,7 @@ defmodule Day11 do
                             |> Enum.flat_map(&Comb.combinations(can_move, &1))
 
     possible_floors = [elevator_floor + 1, elevator_floor - 1]
-                      |> Enum.filter(& &1 >= 0)
+                      |> Enum.filter(&(&1 >= 0 and &1 < 4))
 
     Comb.cartesian_product(possible_floors, elevator_combinations)
     |> Enum.map(&List.to_tuple/1)
@@ -198,7 +214,7 @@ defmodule Day11 do
       just_microchips(cleaned_floor),
       true,
       fn x, acc ->
-        acc and would_fry_microchip?(x, cleaned_floor)
+        acc and not would_fry_microchip?(x, cleaned_floor)
       end
     )
   end
@@ -226,12 +242,68 @@ defmodule Day11 do
     Stream.scan(stream, 0, fn x, acc -> acc + 1 end)
   end
 
-  def state_transitions_to_graph(states) do
-    Graph.add_edges(Graph.new, states)
+  def state_transitions_to_graph(states, store_as_int \\ false) do
+    new_states = case store_as_int do
+      false ->
+        states
+      true ->
+        states
+        |> Enum.map(fn {v1, v2} -> {state_to_number(v1), state_to_number(v2)} end)
+    end
+    Graph.add_edges(Graph.new, new_states)
+  end
+
+  def input_to_initial_state(input) do
+    mapped = input
+             |> Enum.map(fn {floor, type, component} -> {floor, {type, component}} end)
+             |> Enum.sort(fn a, b -> elem(a, 1) < elem(b, 1) end)
+
+    [{0, :elevator} | mapped]
+  end
+
+  def render_state(state) do
+    [elevator | components ] = state |> Enum.map(&elem(&1, 1))
+    ordering = [elevator | components |> Enum.sort]
+               |> Enum.with_index
+               |> Map.new
+               |> Map.put(:total, length(state))
+    Enum.group_by(state, &elem(&1, 0))
+    |> Map.to_list
+    |> Enum.map(&render_floor(&1, ordering))
+    |> Enum.reverse
+    |> Enum.join("\n")
+  end
+
+  def render_floor({floor_num, rest}, ordering) do
+    comps = rest |> Enum.map(&elem(&1, 1)) |> Enum.map(fn x -> {Map.get(ordering, x), x} end) |> Map.new
+    rendered = 1..ordering.total
+    |> Enum.map(fn num ->
+      case Map.get(comps, num) do
+        nil -> ". "
+        x -> render_component(x)
+      end
+    end)
+
+    ["F#{floor_num + 1}" | rendered ] |> Enum.join(" ")
+  end
+
+  def render_component(:elevator), do: "E"
+  def render_component(component) do
+    component
+    |> Tuple.to_list
+    |> Enum.map(&to_string/1)
+    |> Enum.map(&String.slice(&1, 0..0))
+    |> Enum.map(&String.upcase/1)
+    |> Enum.join("")
   end
 
   def solve(input) do
-    get_states(input) |> state_transitions_to_graph
+    init = input_to_initial_state(input)
+           |> state_to_number
+    {states, final} = get_states(input)
+    g = states
+        |> state_transitions_to_graph
+    #    Graph.dijkstra(g, init, final)
   end
 
 end
