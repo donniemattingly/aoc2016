@@ -1,6 +1,6 @@
 defmodule Day11 do
   def real_input do
-    Utils.get_input(11, 1)
+    Utils.get_input(11, 2)
   end
 
   def sample_input do
@@ -112,6 +112,7 @@ defmodule Day11 do
                     |> Enum.map(fn x -> {state, x} end)
                   end
                 )
+             |> Stream.uniq
 
     {states, states_count - 1}
   end
@@ -142,6 +143,12 @@ defmodule Day11 do
                   |> Enum.join("")
                   |> Integer.parse(2)
     num
+
+    if num == 1328494 do
+      IO.inspect({state, num})
+    end
+
+    num
   end
 
   @doc"""
@@ -161,10 +168,17 @@ defmodule Day11 do
     possible_floors = [elevator_floor + 1, elevator_floor - 1]
                       |> Enum.filter(&(&1 >= 0 and &1 < 4))
 
-    Comb.cartesian_product(possible_floors, elevator_combinations)
-    |> Enum.map(&List.to_tuple/1)
-    |> Enum.map(&advance_state(&1, state))
-    |> Enum.filter(&valid_state?/1)
+    res = Comb.cartesian_product(possible_floors, elevator_combinations)
+          |> Enum.map(&List.to_tuple/1)
+          |> Enum.map(&advance_state(&1, state))
+          |> Enum.filter(&valid_transition?(&1, state))
+          |> Enum.filter(&valid_state?/1)
+
+    if state_to_number(state) == 1328494 do
+      IO.inspect(res)
+    end
+
+    res
   end
 
 
@@ -195,6 +209,12 @@ defmodule Day11 do
   def num_states(num_components) do
     :math.pow(2, 2 * (num_components + 1))
     |> round
+  end
+
+  def valid_transition?(state, prev_state) do
+    [h1 | t1] = state
+    [h2 | t2] = prev_state
+    h1 != h2 and t2 != t1
   end
 
   def valid_state?(state) do
@@ -250,7 +270,7 @@ defmodule Day11 do
         states
         |> Enum.map(fn {v1, v2} -> {state_to_number(v1), state_to_number(v2)} end)
     end
-    Graph.add_edges(Graph.new, new_states)
+    Graph.add_edges(Graph.new(type: :directed), new_states)
   end
 
   def input_to_initial_state(input) do
@@ -261,33 +281,56 @@ defmodule Day11 do
     [{0, :elevator} | mapped]
   end
 
+  def print_state(state) do
+    state
+    |> render_state
+    |> IO.puts
+  end
+
   def render_state(state) do
-    [elevator | components ] = state |> Enum.map(&elem(&1, 1))
-    ordering = [elevator | components |> Enum.sort]
+    [elevator | components] = state
+                              |> Enum.map(&elem(&1, 1))
+    ordering = [
+                 elevator | components
+                            |> Enum.sort
+               ]
                |> Enum.with_index
                |> Map.new
                |> Map.put(:total, length(state))
-    Enum.group_by(state, &elem(&1, 0))
-    |> Map.to_list
-    |> Enum.map(&render_floor(&1, ordering))
-    |> Enum.reverse
-    |> Enum.join("\n")
+    lines = 0..3
+            |> Enum.reduce(
+                 Enum.group_by(state, &elem(&1, 0)),
+                 fn x, acc ->
+                   Map.update(acc, x, [], & &1)
+                 end
+               )
+            |> Map.to_list
+            |> Enum.map(&render_floor(&1, ordering))
+            |> Enum.reverse
+
+    Enum.join([state_to_number(state) | lines], "\n")
   end
 
   def render_floor({floor_num, rest}, ordering) do
-    comps = rest |> Enum.map(&elem(&1, 1)) |> Enum.map(fn x -> {Map.get(ordering, x), x} end) |> Map.new
-    rendered = 1..ordering.total
-    |> Enum.map(fn num ->
-      case Map.get(comps, num) do
-        nil -> ". "
-        x -> render_component(x)
-      end
-    end)
+    comps = rest
+            |> Enum.map(&elem(&1, 1))
+            |> Enum.map(fn x -> {Map.get(ordering, x), x} end)
+            |> Map.new
+    rendered = 0..ordering.total
+               |> Enum.map(
+                    fn num ->
+                      case Map.get(comps, num) do
+                        nil -> ". "
+                        x -> render_component(x)
+                      end
+                    end
+                  )
 
-    ["F#{floor_num + 1}" | rendered ] |> Enum.join(" ")
+    ["F#{floor_num + 1}" | rendered]
+    |> Enum.join(" ")
   end
 
-  def render_component(:elevator), do: "E"
+  def render_component(:elevator), do: "E "
   def render_component(component) do
     component
     |> Tuple.to_list
@@ -298,12 +341,17 @@ defmodule Day11 do
   end
 
   def solve(input) do
+    components = get_components_from_parsed_input(input)
     init = input_to_initial_state(input)
            |> state_to_number
     {states, final} = get_states(input)
     g = states
-        |> state_transitions_to_graph
-    #    Graph.dijkstra(g, init, final)
+        |> state_transitions_to_graph(true)
+
+    {g, init, final}
+#        Graph.dijkstra(g, init, final)
+#        |> Enum.map(&number_to_state(&1, components))
+#        |> Enum.map(&render_state/1)
   end
 
 end
