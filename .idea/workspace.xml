@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/graph.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/input-11-1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/input-11-1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/input-11-2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/input-11-2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/day11.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day11.ex" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +41,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT&#10;Elixir" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -48,7 +51,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Elixir" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">

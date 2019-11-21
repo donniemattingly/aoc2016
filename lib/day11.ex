@@ -1,6 +1,6 @@
 defmodule Day11 do
   def real_input do
-    Utils.get_input(11, 2)
+    Utils.get_input(11, 1)
   end
 
   def sample_input do
@@ -157,17 +157,23 @@ defmodule Day11 do
   generator
   """
   def neighbor_states(state) do
+    # get the current floor
     {elevator_floor, _} = Enum.find(state, fn x -> elem(x, 1) == :elevator end)
+
+    # get components that can move
     can_move = state
                |> Enum.filter(fn {floor, c} -> floor == elevator_floor and c != :elevator end)
                |> Enum.map(&elem(&1, 1))
 
+    # get a list components that can go in the elevator
     elevator_combinations = 1..2
                             |> Enum.flat_map(&Comb.combinations(can_move, &1))
 
+    # get a list of the floors that the elevator can go to
     possible_floors = [elevator_floor + 1, elevator_floor - 1]
                       |> Enum.filter(&(&1 >= 0 and &1 < 4))
 
+    # the product of these lists are all possible transitions from this state
     res = Comb.cartesian_product(possible_floors, elevator_combinations)
           |> Enum.map(&List.to_tuple/1)
           |> Enum.map(&advance_state(&1, state))
@@ -268,7 +274,15 @@ defmodule Day11 do
         states
       true ->
         states
-        |> Enum.map(fn {v1, v2} -> {state_to_number(v1), state_to_number(v2)} end)
+        |> Enum.map(
+             fn {v1, v2} ->
+               {
+                 state_to_number(v1)
+                 |> to_string,
+                 state_to_number(v2)
+                 |> to_string
+               } end
+           )
     end
     Graph.add_edges(Graph.new(type: :directed), new_states)
   end
@@ -279,6 +293,16 @@ defmodule Day11 do
              |> Enum.sort(fn a, b -> elem(a, 1) < elem(b, 1) end)
 
     [{0, :elevator} | mapped]
+  end
+
+  def input_to_start_and_end_states(input) do
+    mapped = input
+             |> Enum.map(fn {floor, type, component} -> {floor, {type, component}} end)
+             |> Enum.sort(fn a, b -> elem(a, 1) < elem(b, 1) end)
+
+    initial = [{0, :elevator} | mapped]
+    final = initial |> Enum.map(fn {floor, component} -> {3, component} end)
+    {initial, final}
   end
 
   def print_state(state) do
@@ -340,18 +364,54 @@ defmodule Day11 do
     |> Enum.join("")
   end
 
-  def solve(input) do
+  def old_solve(input) do
     components = get_components_from_parsed_input(input)
     init = input_to_initial_state(input)
            |> state_to_number
-    {states, final} = get_states(input)
+           |> to_string
+    {states, final_num} = get_states(input)
     g = states
         |> state_transitions_to_graph(true)
 
+    #    final = number_to_state(final_num, components)
+    final = final_num
+            |> to_string
     {g, init, final}
-#        Graph.dijkstra(g, init, final)
-#        |> Enum.map(&number_to_state(&1, components))
-#        |> Enum.map(&render_state/1)
+    Graph.dijkstra(g, init, final)
+    #        |> Enum.map(&number_to_state(&1, components))
+    #        |> Enum.map(&render_state/1)
+  end
+
+  def alt_get_states(input) do
+    initial = input_to_initial_state(input)
+  end
+
+  def get_edges(node) do
+    neighbors = neighbor_states(node)
+  end
+
+  def solve(input) do
+    {initial, final} = input_to_start_and_end_states(input)
+    { _, discovered_map } = GraphUtils.bfs(initial, fn x -> neighbors_for_search(x, final) end)
+    get_path(discovered_map, final)
+  end
+
+  def neighbors_for_search(node, final) do
+    cond do
+      node == final -> []
+      true -> neighbor_states(node)
+    end
+  end
+
+  def get_path(map, goal) do
+    get_path(map, goal, [])
+  end
+
+  defp get_path(map, current_node, path) do
+    case Map.get(map, current_node) do
+      nil -> path
+      x -> get_path(map, x, [ current_node | path ])
+    end
   end
 
 end
