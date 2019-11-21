@@ -45,7 +45,23 @@ defmodule GraphUtils do
             false -> {PriorityQueue.push(q, w, 1), Map.put(d, w, v)}
           end
         end)
+
+        if :rand.uniform() > 0.999 do
+          updated_discovered |> get_path(v) |> length |> to_string |> IO.puts
+        end
+
         do_bfs(neighbors_fn, updated_queue, updated_discovered)
+    end
+  end
+
+  def get_path(map, goal) do
+    get_path(map, goal, [])
+  end
+
+  defp get_path(map, current_node, path) do
+    case Map.get(map, current_node) do
+      nil -> path
+      x -> get_path(map, x, [ current_node | path ])
     end
   end
 

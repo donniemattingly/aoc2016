@@ -46,7 +46,7 @@ defmodule Day11 do
   def real_input2, do: real_input()
 
   def parse_input1(input), do: parse_input(input)
-  def parse_input2(input), do: parse_input(input)
+  def parse_input2(input), do: parse_input(input) ++ [{0, :ele, :g}, {0, :ele, :m}, {0, :dil, :g}, {0, :dil, :m}]
 
   def solve1(input), do: solve(input)
   def solve2(input), do: solve(input)
