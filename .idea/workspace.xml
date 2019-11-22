@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/inputs/input-12-1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/day12.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/day11.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day11.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/graph.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/graph.ex" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +42,7 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT&#10;Elixir" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
