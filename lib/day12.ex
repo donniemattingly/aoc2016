@@ -51,7 +51,10 @@ defmodule Day12 do
   def parse_input2(input), do: parse_input(input)
 
   def solve1(input), do: solve(input)
-  def solve2(input), do: solve(input)
+  def solve2(input) do
+    input
+    |> perform_instructions(1)
+  end
 
   def parse_input(input) do
     input
@@ -75,11 +78,11 @@ defmodule Day12 do
 
   def solve(input) do
     input
-    |> perform_instructions
+    |> perform_instructions(0)
   end
 
-  def perform_instructions(instructions) do
-    do_perform_instructions(instructions, 0, %{a: 0, b: 0, c: 0, d: 0})
+  def perform_instructions(instructions, c_value) do
+    do_perform_instructions(instructions, 0, %{a: 0, b: 0, c: c_value, d: 0})
   end
 
   defp do_perform_instructions(instructions, ip, registers) do
@@ -124,15 +127,15 @@ defmodule Day12 do
   end
 
   def execute_instruction({:inc, source}, ip, registers) do
-    new_value =  get_value(registers, source) + 1
+    new_value = get_value(registers, source) + 1
     {
-    ip + 1,
-    set_value(new_value, source, registers)
+      ip + 1,
+      set_value(new_value, source, registers)
     }
   end
 
   def execute_instruction({:dec, source}, ip, registers) do
-    new_value =  get_value(registers, source) - 1
+    new_value = get_value(registers, source) - 1
     {
       ip + 1,
       set_value(new_value, source, registers)

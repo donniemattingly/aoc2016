@@ -40,7 +40,7 @@ defmodule GraphUtils do
       {{:value, v}, new_queue} ->
         {updated_queue, updated_discovered} = neighbors_fn.(v)
         |> Enum.reduce({new_queue, discovered}, fn w, {q, d} ->
-          case Map.has_key?(discovered, w) do
+          case Map.has_key?(d, w) do
             true -> {q, d}
             false -> {PriorityQueue.push(q, w, 1), Map.put(d, w, v)}
           end
