@@ -1,4 +1,6 @@
 defmodule Day14 do
+  use Memoize
+
   def real_input do
     Utils.get_input(14, 1)
   end
@@ -46,7 +48,6 @@ defmodule Day14 do
   def parse_input2(input), do: parse_input(input)
 
   def solve1(input), do: solve(input)
-  def solve2(input), do: solve(input)
 
   def parse_input(input) do
     input
@@ -55,18 +56,29 @@ defmodule Day14 do
 
   def solve(input) do
     salt = input
-    get_next_key(salt, 0, [], MapSet.new)
+    get_next_key(salt, 0, [])
   end
 
-  def get_next_key(salt, index, keys, ignoring) when length(keys) >= 64 do
-    {keys, ignoring}
+  def solve2(input) do
+    salt = input
+    Stream.iterate(0, &(&1 + 1))
+    |> Stream.map(fn x -> {x, is_key?(salt, x, &hash2/2)} end)
+    |> Stream.filter(fn {x, is_key} -> is_key end)
+    |> Stream.take(64)
+    |> Stream.map(&IO.inspect/1)
+    |> Enum.to_list
+    |> Enum.take(-1)
   end
 
-  def get_next_key(salt, index, keys, ignoring) do
-    case is_key?(salt, index, ignoring) do
-      false -> get_next_key(salt, index + 1, keys, ignoring)
-      {false, _} -> get_next_key(salt, index + 1, keys, ignoring)
-      {true, val} -> get_next_key(salt, index + 1, [index | keys], ignoring)
+  def get_next_key(salt, index, keys) when length(keys) >= 64 do
+    keys
+  end
+
+  def get_next_key(salt, index, keys) do
+    case is_key?(salt, index, &hash/2) do
+      false -> get_next_key(salt, index + 1, keys)
+      {false, _} -> get_next_key(salt, index + 1, keys)
+      true -> get_next_key(salt, index + 1, [index | keys])
     end
   end
 
@@ -76,26 +88,31 @@ defmodule Day14 do
     |> String.downcase
   end
 
-  def hash(salt, index) do
+  defmemo hash(salt, index) do
     md5("#{salt}#{index}")
   end
 
-  def is_key?(salt, index, used_chars) do
-    case contains_n_length_run(hash(salt, index), 3, ignoring: used_chars) do
+  defmemo hash2(salt, index) do
+    do_hash2(hash(salt, index), 1)
+  end
+
+  defp do_hash2(hash, 2016), do: md5(hash)
+  defp do_hash2(hash, count) do
+    md5(do_hash2(hash, count + 1))
+  end
+
+  def is_key?(salt, index, hash_fun) do
+    case contains_n_length_run(hash_fun.(salt, index), 3) do
       {:ok, found} ->
-        {
-          index + 1..index + 1000
-          |> Enum.map(fn x -> match?({:ok, _}, contains_n_length_run(hash(salt, x), 6, only: found)) end)
-          |> Enum.any?(& &1),
-          found
-        }
+        index + 1..index + 1000
+        |> Enum.map(fn x -> match?({:ok, _}, contains_n_length_run(hash_fun.(salt, x), 6, only: found)) end)
+        |> Enum.any?(& &1)
       :error ->
         false
     end
   end
 
   def contains_n_length_run(string, n, options \\ []) do
-    ignoring = Keyword.get(options, :ignoring, MapSet.new)
     only = Keyword.get(options, :only, nil)
 
     res = string
@@ -106,7 +123,6 @@ defmodule Day14 do
                  new_count = cond do
                    only != nil and not Enum.member?(only, x) -> 1
                    only != nil and Enum.member?(only, x) -> count + 1
-                   MapSet.member?(ignoring, x) -> 1
                    x == last -> count + 1
                    true -> 1
                  end

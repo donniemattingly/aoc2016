@@ -21,8 +21,9 @@ defmodule Aoc2016.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-#      {:matrex, "~> 0.6"},
+      {:matrex, "~> 0.6"},
       {:libgraph, "~> 0.13"},
+      {:memoize, "~> 1.2"},
       # {:dep_from_hexpm, "~> 0.3.0"},
       {:comb, git: "https://github.com/tallakt/comb.git"}
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}

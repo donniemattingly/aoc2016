@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/libgraph" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/matrex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/memoize" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/elixir_make" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/matrex" />
       <excludeFolder url="file://$MODULE_DIR$/assets/node_modules/phoenix" />
@@ -30,5 +31,6 @@
     <orderEntry type="library" name="dialyxir" level="project" />
     <orderEntry type="library" name="ex_doc" level="project" />
     <orderEntry type="library" name="comb" level="project" />
+    <orderEntry type="library" name="memoize" level="project" />
   </component>
 </module>
