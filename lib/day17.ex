@@ -49,6 +49,12 @@ defmodule Day17 do
     input
   end
 
+
+  @doc """
+  This one is interesting from my BFS perspective, because adding the path element causes the
+  algorithm to explore every valid path to that space, then I need to filter from there. This
+  was convenient for part 2 when
+  """
   def solve(input) do
     passcode = input
     {q, m} = GraphUtils.bfs({{0, 0}, ''}, fn x -> neighbors_for_search(x, passcode, {3, 3}) end)
