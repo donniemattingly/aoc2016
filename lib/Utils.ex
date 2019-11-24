@@ -23,4 +23,10 @@ defmodule Utils do
 
     elapsed / 1_000_000
   end
+
+  def md5(value) do
+    :crypto.hash(:md5, value)
+    |> Base.encode16()
+    |> String.downcase
+  end
 end

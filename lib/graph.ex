@@ -46,7 +46,7 @@ defmodule GraphUtils do
           end
         end)
 
-        if :rand.uniform() > 0.999 do
+        if :rand.uniform() > 0.9999 do
           updated_discovered |> get_path(v) |> length |> to_string |> IO.puts
         end
 
