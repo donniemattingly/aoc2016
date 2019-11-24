@@ -78,7 +78,8 @@ defmodule Day15 do
 
   def find_time_to_drop(discs) do
     Stream.iterate(0, & &1 + 1)
-    |> Stream.filter(fn x ->
+    |> Flow.from_enumerable
+    |> Flow.filter(fn x ->
       discs
       |> Enum.map(&position_at_time(&1, x))
       |> Enum.all?(& &1 == 0)

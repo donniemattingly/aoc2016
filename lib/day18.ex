@@ -1,11 +1,10 @@
 defmodule Day18 do
   def real_input do
-    Utils.get_input(18, 1)
+    ".^^^^^.^^^..^^^^^...^.^..^^^.^^....^.^...^^^...^^^^..^...^...^^.^.^.......^..^^...^.^.^^..^^^^^...^."
   end
 
   def sample_input do
-    """
-    """
+    "..^^."
   end
 
   def sample_input2 do
@@ -54,7 +53,6 @@ defmodule Day18 do
   def solve(input) do
     input
   end
-
 
   def is_trap?(tiles) do
     case tiles do

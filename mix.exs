@@ -23,6 +23,7 @@ defmodule Aoc2016.MixProject do
     [
       {:matrex, "~> 0.6"},
       {:libgraph, "~> 0.13"},
+      {:flow, "~> 0.14"},
       {:memoize, "~> 1.2"},
       # {:dep_from_hexpm, "~> 0.3.0"},
       {:comb, git: "https://github.com/tallakt/comb.git"}

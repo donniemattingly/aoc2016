@@ -62,10 +62,10 @@ defmodule Day14 do
   def solve2(input) do
     salt = input
     Stream.iterate(0, &(&1 + 1))
-    |> Stream.map(fn x -> {x, is_key?(salt, x, &hash2/2)} end)
-    |> Stream.filter(fn {x, is_key} -> is_key end)
+    |> Flow.from_enumerable
+    |> Flow.map(fn x -> {x, is_key?(salt, x, &hash2/2)} end)
+    |> Flow.filter(fn {x, is_key} -> is_key end)
     |> Stream.take(64)
-    |> Stream.map(&IO.inspect/1)
     |> Enum.to_list
     |> Enum.take(-1)
   end

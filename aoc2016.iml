@@ -9,6 +9,8 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/comb" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/elixir_make" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/flow" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/gen_stage" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/libgraph" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/matrex" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/memoize" />
@@ -32,5 +34,8 @@
     <orderEntry type="library" name="ex_doc" level="project" />
     <orderEntry type="library" name="comb" level="project" />
     <orderEntry type="library" name="memoize" level="project" />
+    <orderEntry type="library" name="flow" level="project" />
+    <orderEntry type="library" name="gen_stage" level="project" />
+    <orderEntry type="library" name="inch_ex" level="project" />
   </component>
 </module>
