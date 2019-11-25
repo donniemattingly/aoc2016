@@ -24,6 +24,13 @@ defmodule Utils do
     elapsed / 1_000_000
   end
 
+  def sample(value, threshold \\ 0.999) do
+    case :rand.uniform() > threshold do
+      true -> IO.inspect(value)
+      _ -> value
+    end
+  end
+
   def md5(value) do
     :crypto.hash(:md5, value)
     |> Base.encode16()
