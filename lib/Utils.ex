@@ -36,4 +36,15 @@ defmodule Utils do
     |> Base.encode16()
     |> String.downcase
   end
+
+  def swap(list, pos_a, pos_a), do: list
+  def swap(list, pos_a, pos_b) when pos_a < pos_b do
+    {initial, rest} = Enum.split(list, pos_a)
+    {between, tail} = Enum.split(rest, pos_b - pos_a)
+    a = hd(between)
+    b = hd(tail)
+    initial ++ [b] ++ tl(between) ++ [a] ++ tl(tail)
+  end
+
+  def swap(list, pos_a, pos_b) when pos_b < pos_a, do: swap(list, pos_b, pos_a)
 end
