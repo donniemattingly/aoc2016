@@ -48,7 +48,6 @@ defmodule Day20 do
   def parse_input2(input), do: parse_input(input)
 
   def solve1(input), do: solve(input)
-  def solve2(input), do: solve(input)
 
   def parse_input(input) do
     input
@@ -57,17 +56,21 @@ defmodule Day20 do
          fn x ->
            String.split(x, "-")
            |> Enum.map(&String.to_integer/1)
-           |> List.to_tuple end
+           |> List.to_tuple
+         end
        )
   end
 
   def solve(input) do
     Stream.iterate(0, & &1 + 1)
+    |> Stream.take_while(fn x -> x <= 4294967295 end)
     |> Flow.from_enumerable()
-    |> Flow.filter(fn x ->
-      !Enum.any?(input, fn range -> in_range(x, range) end)
-    end)
-    |> Stream.take(1)
+    |> Flow.filter(
+         fn x ->
+           !Enum.any?(input, fn range -> in_range(x, range) end)
+         end
+       )
+    |> Stream.map(&IO.inspect/1)
     |> Enum.to_list
   end
 
@@ -75,8 +78,66 @@ defmodule Day20 do
     x >= a and x <= b
   end
 
-  def not_stupid() do
+  def solve_stupid(input) do
+    Stream.iterate(0, & &1 + 1)
+    |> Flow.from_enumerable()
+    |> Flow.filter(
+         fn x ->
+           !Enum.any?(input, fn range -> in_range(x, range) end)
+         end
+       )
+    |> Stream.take(1)
+    |> Enum.to_list
+  end
 
+  def collapse_ranges(ranges) do
+    {[current | list] = all, last} = ranges
+                                     |> Enum.sort
+                                     |> Enum.reduce(
+                                          {[], nil},
+                                          &reduction/2
+                                        )
+
+    case merge_range(current, last) do
+      :disjoint -> [last | all]
+      {:ok, merged} -> [merged | all]
+    end
+  end
+
+  def reduction({next_start, next_end} = next, {list, current}) do
+    case merge_range(current, next) do
+      :error -> {list, next}
+      :disjoint -> {[current | list], next}
+      {:ok, merged} -> {list, merged}
+    end
+  end
+
+  def merge_range(nil, next), do: :error
+
+  def merge_range({current_start, current_end} = current, {next_start, next_end} = next) do
+    cond do
+      next_start <= current_end and next_end >= current_end ->
+        {:ok, {current_start, next_end + 1}}
+      next_start <= current_end ->
+        {:ok, current}
+      true ->
+        :disjoint
+    end
+  end
+
+  def solve2(input) do
+    max = 4294967295
+
+    blocked_count = input
+                    |> collapse_ranges
+                    |> Enum.reduce(
+                         0,
+                         fn {a, b}, acc ->
+                           acc + (b - a)
+                         end
+                       )
+
+    max - blocked_count
   end
 
 end
