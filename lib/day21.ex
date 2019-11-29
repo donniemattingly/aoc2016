@@ -24,26 +24,26 @@ defmodule Day21 do
   def sample do
     sample_input
     |> parse_input1
-    |> solve1
+    |> solve1('abcde')
   end
 
   def part1 do
     real_input1
     |> parse_input1
-    |> solve1
+    |> solve1('abcdefgh')
   end
 
 
   def sample2 do
     sample_input2
     |> parse_input2
-    |> solve2
+    |> solve2('abcde')
   end
 
   def part2 do
     real_input2
     |> parse_input2
-    |> solve2
+    |> solve2('fbgdceah')
   end
 
   def real_input1, do: real_input()
@@ -52,8 +52,7 @@ defmodule Day21 do
   def parse_input1(input), do: parse_input(input)
   def parse_input2(input), do: parse_input(input)
 
-  def solve1(input), do: solve(input)
-  def solve2(input), do: solve(input)
+  def solve1(input, starting_string), do: solve(input, starting_string)
 
   def parse_input(input) do
     input
@@ -112,6 +111,76 @@ defmodule Day21 do
     {:move_pos, x, y}
   end
 
+  @doc"""
+  swap position X with position Y means that the letters at
+  indexes X and Y (counting from 0) should be swapped.
+  """
+  def do_op({:swap_pos, x, y}, str) do
+    Utils.swap(str, x, y)
+  end
+
+  @doc"""
+  swap letter X with letter Y means that the letters X and Y should be swapped
+  (regardless of where they appear in the string).
+  """
+  def do_op({:swap_letters, x, y}, str) do
+    index_x = Enum.find_index(str, & &1 == x)
+    index_y = Enum.find_index(str, & &1 == y)
+    Utils.swap(str, index_x, index_y)
+  end
+
+
+  @doc"""
+  rotate left/right X steps means that the whole string should be rotated;
+  for example, one right rotation would turn abcd into dabc.
+  """
+  def do_op({:rotate_left, x}, str) do
+    {a, b} = Enum.split(str, rem(x, length(str)))
+    b ++ a
+  end
+
+  @doc"""
+   see :rotate_left
+  """
+  def do_op({:rotate_right, x}, str) do
+    {a, b} = Enum.split(str, -1 * rem(x, length(str)))
+    b ++ a
+  end
+
+  @doc"""
+  rotate based on position of letter X means that the whole string should be rotated
+  to the right based on the index of letter X (counting from 0) as determined before
+  this instruction does any rotations. Once the index is determined, rotate the string
+  to the right one time, plus a number of times equal to that index, plus one
+  additional time if the index was at least 4.
+  """
+  def do_op({:rotate_based_on_pos, x}, str) do
+    letter_index = Enum.find_index(str, & &1 == x)
+    case letter_index do
+      x when x >= 4 -> do_op({:rotate_right, x + 2}, str)
+      x -> do_op({:rotate_right, x + 1}, str)
+    end
+  end
+
+  @doc"""
+  reverse positions X through Y means that the span of letters at indexes X
+  through Y (including the letters at X and Y) should be reversed in order.
+  """
+  def do_op({:reverse_pos, x, y}, str) do
+    {a, b} = Enum.split(str, x)
+    {b, c} = Enum.split(b, (y-x) + 1)
+    a ++ Enum.reverse(b) ++ c
+  end
+
+  @doc"""
+  move position X to position Y means that the letter which is at index X
+  should be removed from the string, then inserted such that it ends up at index Y.
+  """
+  def do_op({:move_pos, x, y}, str) do
+    {val, list} = List.pop_at(str, x)
+    List.insert_at(list, y, val)
+  end
+
   def extract(line, regex) do
     Regex.scan(regex, line, capture: :all_but_first)
   end
@@ -124,8 +193,16 @@ defmodule Day21 do
     input |> List.flatten |> Enum.map(&String.to_charlist/1) |> Enum.map(&hd/1)|> List.to_tuple
   end
 
-  def solve(input) do
-    input
+
+  def solve(input, starting_string) do
+    input |> Enum.reduce(starting_string, fn x, acc -> do_op(x, acc) |> IO.inspect end)
+  end
+
+  def solve2(input, starting_string) do
+    Utils.permutations(starting_string)
+    |> Stream.map(fn x -> {solve(input, x), x} end)
+    |> Stream.filter(fn {solved, x} -> solved == starting_string end)
+    |> Enum.take(1)
   end
 
 end

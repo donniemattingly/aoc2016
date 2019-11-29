@@ -47,4 +47,8 @@ defmodule Utils do
   end
 
   def swap(list, pos_a, pos_b) when pos_b < pos_a, do: swap(list, pos_b, pos_a)
+
+
+  def permutations([]), do: [[]]
+  def permutations(list), do: for elem <- list, rest <- permutations(list--[elem]), do: [elem|rest]
 end
