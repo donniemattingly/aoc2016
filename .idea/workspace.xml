@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5c41e14-47e7-4fdf-b93f-b02b521b98e3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/inputs/input-22-1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/day22.ex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Utils.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Utils.ex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/day21.ex" beforeDir="false" afterPath="$PROJECT_DIR$/lib/day21.ex" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,14 +18,6 @@
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>Map.put(pos, true)</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>update_visits(pos)</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -84,7 +76,7 @@
       <workItem from="1574014125130" duration="4302000" />
       <workItem from="1574535064861" duration="29954000" />
       <workItem from="1574860973207" duration="3690000" />
-      <workItem from="1574866897673" duration="13465000" />
+      <workItem from="1574866897673" duration="18984000" />
     </task>
     <servers />
   </component>
