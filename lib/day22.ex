@@ -84,11 +84,47 @@ defmodule Day22 do
     used(a) <= available(b)
   end
 
+  def render_node({x, y, size, _, _, used_percent}, max_x) do
+    symbol = cond do
+      x == 0 and y == 0 -> "S"
+      x == max_x and y == 0 -> "G"
+      size > 200 and used_percent > 80 -> "#"
+      used_percent > 0 -> "."
+      used_percent == 0 -> "_"
+    end
+
+    {x, y, symbol}
+  end
+
+
+  @doc """
+  Printing the grid gives a pretty straightforward solution manually
+  """
+  def print(nodes) do
+    max_x = nodes |> Enum.max_by(fn x -> elem(x, 0) end) |> elem(0)
+    max_y = nodes |> Enum.max_by(fn x -> elem(x, 1) end) |> elem(1)
+
+    grid = nodes
+    |> Enum.map(fn node -> render_node(node, max_x) end)
+    |> Enum.map(fn {x, y, symbol} -> {{x, y}, symbol} end)
+    |> Enum.into(%{})
+
+
+    0..max_y
+    |> Enum.map(fn y ->
+      0..max_x
+      |> Enum.map(fn x -> Map.get(grid, {x, y}) end)
+      |> Enum.join("")
+    end)
+    |> Enum.join("\n")
+  end
+
   def solve(input) do
   (for a <- input, b <- input, do: [a, b])
                                     |> Stream.filter(fn [a, b] -> a != b end)
                                     |> Stream.reject(fn [a, b] -> node_is_empty?(a) end)
                                     |> Stream.filter(fn [a, b] -> data_would_fit?(a, b) end)
+                                    |> Stream.map(&IO.inspect/1)
                                     |> Enum.count()
   end
 
